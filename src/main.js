@@ -126,4 +126,7 @@ bus.on('system-ready', () => {
         components: { App },
         i18n
     });
+    navigator.serviceWorker.register(process.env.ROUTE_BASE + 'static/sw.js', {
+        scope: process.env.ROUTE_BASE + 'static/'
+    });
 });
