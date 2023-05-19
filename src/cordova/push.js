@@ -67,7 +67,7 @@ export default {
                         // [PENDING] Mostramos notificaciones en desktop? Sino borrar este código.
                         const notificationTitle = notification.title;
                         const notificationOptions = {
-                            body: notification.body,
+                            body: notification.body
                         };
                         reg.showNotification(notificationTitle, notificationOptions);
                     });

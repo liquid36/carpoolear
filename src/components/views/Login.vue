@@ -188,7 +188,7 @@ export default {
                 }, error => {
                     const userNotActive = error && error.message === 'user_not_active';
                     const userBanned = error && error.message === 'user_banned';
-                    const message = userNotActive ? this.$t('paraIngresarCuenta') : (userBanned ? this.$t('usuarioBanneado') :  this.$t('emailOContra'));
+                    const message = userNotActive ? this.$t('paraIngresarCuenta') : (userBanned ? this.$t('usuarioBanneado') : this.$t('emailOContra'));
                     this.showUserNotActiveInfo = userNotActive;
                     this.showUserBannedInfo = userBanned;
                     dialogs.message(message, { duration: 10, estado: 'error' });

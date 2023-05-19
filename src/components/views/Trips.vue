@@ -152,7 +152,7 @@ import modal from '../Modal';
 
 export default {
     name: 'trips',
-    data() {
+    data () {
         return {
             lookSearch: false,
             filtered: false,
@@ -161,7 +161,7 @@ export default {
             resultaOfSearch: false,
             showModal: false,
             showModalInstallApp: false,
-            installAppEvent:null,
+            installAppEvent: null,
             donateValue: 0
         };
     },
@@ -179,24 +179,22 @@ export default {
             // morePagesActions: 'trips/tripMorePage',
             // setActionButton: 'actionbars/setHeaderButtons'
         }),
-        isDonationTime() {
+        isDonationTime () {
             if (this.appConfig) {
                 return moment().date() < parseFloat(this.appConfig.donation.month_days);
             } else {
                 return false;
             }
         },
-        async installApp() {
-            this.showModalInstallApp=false;
-            if(this.installAppEvent!==null){
+        async installApp () {
+            this.showModalInstallApp = false;
+            if (this.installAppEvent !== null) {
                 this.installAppEvent.prompt();
                 // Espera a que el usuario responda al mensaje
-                const { outcome } = await this.installAppEvent.userChoice;
-                
+                await this.installAppEvent.userChoice;
             }
-
         },
-        research(params) {
+        research (params) {
             this.resultaOfSearch = true;
             this.lookSearch = false;
             this.filtered = true;
@@ -206,14 +204,14 @@ export default {
             this.findSubscriptions();
             // this.setActionButton(['clear']);
         },
-        nextPage() {
+        nextPage () {
             this.search({ next: true });
         },
-        onTripClick() {
+        onTripClick () {
             let scrolloffset = window.scrollY;
             this.setScrollOffset(scrolloffset);
         },
-        isComplementary(trip, searchParams, index) {
+        isComplementary (trip, searchParams, index) {
             let isComplementary = false;
             if (searchParams.data && searchParams.data.date) {
                 var searchDate = moment(searchParams.data.date).toDate();
@@ -232,7 +230,7 @@ export default {
         // TODO filter trips that not are main route
         // REVIEW wich is the best way to do it?
         // maybe rethink render
-        isMainRoute(trip, searchParams, index) {
+        isMainRoute (trip, searchParams, index) {
             let isMainRoute = true;
             if (searchParams.data && (searchParams.data.destination_id || searchParams.data.origin_id)) {
                 // trip.points[i].json_address.id
@@ -243,7 +241,7 @@ export default {
             return isMainRoute;
         },
 
-        onSearchButton() {
+        onSearchButton () {
             console.log('onSearchButton');
             this.lookSearch = true;
             // this.setActionButton(['clear']);
@@ -251,7 +249,7 @@ export default {
             // Desactivo reaccionar al Scroll
         },
 
-        onClearButton() {
+        onClearButton () {
             bus.off('backbutton', this.onBackBottom);
             bus.on('scroll-bottom', this.onScrollBottom);
             // this.setActionButton(['search']);
@@ -263,7 +261,7 @@ export default {
                 this.$refs.searchBox.clear();
             }
         },
-        onScrollBottom() {
+        onScrollBottom () {
             if (this.morePages && !this.lookSearch) { // Hay páginas y no estoy en búsquedas;
                 if (!this.runningSearch) {
                     this.runningSearch = true;
@@ -274,32 +272,32 @@ export default {
                 }
             }
         },
-        onBackBottom() {
+        onBackBottom () {
             bus.off('backbutton', this.onBackBottom);
             this.lookSearch = false;
             this.alreadySubscribe = false;
         },
-        onDonate() {
+        onDonate () {
             this.showModal = true;
         },
-        onOpenLink(link) {
+        onOpenLink (link) {
             window.open(link, '_blank');
         },
-        onDonateOnceTime() {
+        onDonateOnceTime () {
             if (this.donateValue > 0) {
                 var url = 'http://mpago.la/jgap'; // 50
                 switch (this.donateValue) {
-                    case '100':
-                        url = 'http://mpago.la/CaSZ';
-                        break;
-                    case '200':
-                        url = 'http://mpago.la/xntw';
-                        break;
-                    case '500':
-                        url = 'http://mpago.la/QEiN';
-                        break;
-                    default:
-                        break;
+                case '100':
+                    url = 'http://mpago.la/CaSZ';
+                    break;
+                case '200':
+                    url = 'http://mpago.la/xntw';
+                    break;
+                case '500':
+                    url = 'http://mpago.la/QEiN';
+                    break;
+                default:
+                    break;
                 }
                 window.open(url, '_blank');
                 this.showModal = false;
@@ -313,21 +311,21 @@ export default {
                 dialogs.message(this.$t('valorDonacion'), { duration: 10, estado: 'error' });
             }
         },
-        onDonateMonthly() {
+        onDonateMonthly () {
             if (this.donateValue > 0) {
                 var url = 'http://mpago.la/1w3aci'; // 50
                 switch (this.donateValue) {
-                    case '100':
-                        url = 'http://mpago.la/BfZ';
-                        break;
-                    case '200':
-                        url = 'http://mpago.la/P02H';
-                        break;
-                    case '500':
-                        url = 'http://mpago.la/k8Xp';
-                        break;
-                    default:
-                        break;
+                case '100':
+                    url = 'http://mpago.la/BfZ';
+                    break;
+                case '200':
+                    url = 'http://mpago.la/P02H';
+                    break;
+                case '500':
+                    url = 'http://mpago.la/k8Xp';
+                    break;
+                default:
+                    break;
                 }
                 window.open(url, '_blank');
                 this.showModal = false;
@@ -341,7 +339,7 @@ export default {
                 dialogs.message(this.$t('valorDonacion'), { duration: 10, estado: 'error' });
             }
         },
-        subscribeSearch() {
+        subscribeSearch () {
             let params = this.searchParams.data;
             let data = {};
             if (params.date) {
@@ -379,7 +377,7 @@ export default {
             });
         }
     },
-    mounted() {
+    mounted () {
         // Clear search
         if (this.clearSearch) {
             this.onClearButton();
@@ -407,7 +405,7 @@ export default {
             // Guarda el evento para que se dispare más tarde
             this.installAppEvent = e;
             // Actualizar la IU para notificarle al usuario que se puede instalar tu PWA
-            this.showModalInstallApp =true;
+            this.showModalInstallApp = true;
             // De manera opcional, envía el evento de analíticos para saber si se mostró la promoción a a instalación del PWA
             console.log(`'beforeinstallprompt' event was fired.`);
         });
@@ -424,11 +422,11 @@ export default {
 
         router.stack = [];
     },
-    updated(a) {
+    updated (a) {
 
         // Pendiente, no se limpia el buscador, si los search params están vacios
     },
-    beforeDestroy() {
+    beforeDestroy () {
         bus.off('search-click', this.onSearchButton);
         bus.off('clear-click', this.onClearButton);
         bus.off('scroll-bottom', this.onScrollBottom);
@@ -458,7 +456,7 @@ export default {
             scrollPosition: 'trips/scrollOffset'
         }),
 
-        showingTrips() {
+        showingTrips () {
             return !this.isMobile || !this.lookSearch;
         }
     },
